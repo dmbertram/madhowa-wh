@@ -11,6 +11,9 @@ def main():
     for line in rdr:
         aisle, row, sect = line[1].split("-")
         print "aisle = %s, row = %s, sect = %s \n" % (aisle, row, sect)
+        if aisle != cur_aisle:
+            cur_aisle = aisle
+            print ">>>>>>  create new parent warehouose = " + cur_aisle
     inf.close()
     outf.close()
 
