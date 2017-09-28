@@ -1,24 +1,30 @@
 import csv
 
+def norma(aisle):
+    num = int(aisle.split("w")[1])
+    return "Row" + "{0:0>2}".format(num)
+
+
+def normr(row):
+    num = int(row[1:])
+    return "R" + "{0:0>3}".format(num)
+
 
 def main():
     cur_aisle = ""
-    cur_row = ""
     outf = open("outhouse.csv", 'wb')
     wrt = csv.writer(outf)
     inf = open("Warehouse.csv", 'rb')
     rdr = csv.reader(inf)
     for line in rdr:
         aisle, row, sect = line[1].split("-")
+        aisle = norma(aisle)
         if aisle != cur_aisle:
             cur_aisle = aisle
-            res = aisle + " - MA," + aisle + ",Madhowa Associates,1,All Warehouses - MA"
+            res = ",," + aisle + ",Madhowa Associates,1,Main Warehouse - MA"
             wrt.writerow(res.split(","))
-        if row != cur_row:
-            cur_row = row
-            res = row + " - MA," + row + ",Madhowa Associates,1," + cur_aisle + " - MA"
-            wrt.writerow(res.split(","))
-        res = sect + " - MA," + sect + ",Madhowa Associates,0," + cur_row + " - MA"
+        cur_sect = normr(row) + sect
+        res = ",," + cur_aisle + "-" + cur_sect + ",Madhowa Associates,0," + cur_aisle + " - MA"
         wrt.writerow(res.split(","))
     inf.close()
     outf.close()
